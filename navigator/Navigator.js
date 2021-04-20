@@ -7,7 +7,7 @@ import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from "react-navigation-drawer";
-import { Main } from "../screens/index";
+import { SocialView } from "../screens/index";
 import Colors from "../constant/Colors";
 
 const defaultOption = {
@@ -21,8 +21,8 @@ const defaultOption = {
 
 const InternalNavigator = createStackNavigator(
   {
-    Main: {
-      screen: Main,
+    Social: {
+      screen: SocialView,
       navigationOptions: {
         headerTitle: "Social",
       },

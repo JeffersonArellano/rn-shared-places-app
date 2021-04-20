@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 
-const Main = (props) => {
+const DetailsView = (props) => {
   return (
     <View style={{ ...props.style, ...styles.container }}>
-      <Text>Main View</Text>
+      <Text>DetailsView</Text>
     </View>
   );
 };
@@ -16,4 +16,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Main;
+export default DetailsView;

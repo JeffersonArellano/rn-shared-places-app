@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LogBox, View, Text } from "react-native";
+import { LogBox } from "react-native";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import Navigator from "./navigator/Navigator";

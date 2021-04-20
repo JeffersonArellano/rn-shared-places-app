@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 
-const ComponentName = (props) => {
+const SocialView = (props) => {
   return (
     <View style={{ ...props.style, ...styles.container }}>
-      {" "}
-      <Text>ComponentTemplate</Text>
+      <Text>Main View</Text>
     </View>
   );
 };
@@ -19,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ComponentName;
+export default SocialView;

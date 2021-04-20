@@ -1,3 +1,3 @@
-import Main from "./main/Main";
+import SocialView from "./socialView/SocialView";
 
-export { Main };
+export { SocialView };
