@@ -1,21 +1,31 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { LogBox, View, Text } from "react-native";
+import * as Font from "expo-font";
+import AppLoading from "expo-app-loading";
+import Navigator from "./navigator/Navigator";
+
+LogBox.ignoreAllLogs(true);
+LogBox.ignoreLogs(["Warning: ..."]);
+
+const fetchFonts = async () => {
+  await Font.loadAsync({
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+  });
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const [fontLoaded, setFontLoaded] = useState(false);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setFontLoaded(true)}
+        onError={(error) => console.log(error)}
+      />
+    );
+  }
+
+  return <Navigator />;
+}
