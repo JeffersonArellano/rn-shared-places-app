@@ -9,10 +9,16 @@ const MapView = (props) => {
   );
 };
 
+// MapView.navigationOptions = (navOptions) => {
+//   return {};
+// };
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFF2E",
-    width: "80%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
 });
 

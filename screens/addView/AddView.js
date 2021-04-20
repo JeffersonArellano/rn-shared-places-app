@@ -1,14 +1,25 @@
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import { HeaderTitle } from "react-navigation-stack";
 
 const AddView = (props) => {
-  return <View style={{ ...props.style, ...styles.container }}>AddView</View>;
+  return (
+    <View style={{ ...props.style, ...styles.container }}>
+      <Text>AddView</Text>
+    </View>
+  );
 };
+
+// AddView.navigationOptions = (navOptions) => {
+//   return {};
+// };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFF2E",
-    width: "80%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
 });
 

@@ -4,7 +4,6 @@ import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 const ComponentName = (props) => {
   return (
     <View style={{ ...props.style, ...styles.container }}>
-      {" "}
       <Text>ComponentTemplate</Text>
     </View>
   );
