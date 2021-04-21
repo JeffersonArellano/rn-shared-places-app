@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { LogBox, View, Text } from "react-native";
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+import { LogBox } from "react-native";
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import Navigator from "./navigator/Navigator";
+import rootReducer from "./store/reducers";
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(["Warning: ..."]);
@@ -16,6 +20,7 @@ const fetchFonts = async () => {
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
+  const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
   if (!fontLoaded) {
     return (
@@ -27,5 +32,9 @@ export default function App() {
     );
   }
 
-  return <Navigator />;
+  return (
+    <Provider store={store}>
+      <Navigator />
+    </Provider>
+  );
 }

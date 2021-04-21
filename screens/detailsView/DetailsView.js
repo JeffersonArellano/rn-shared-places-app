@@ -1,12 +1,12 @@
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 
-const ComponentName = (props) => {
-  return (
-    <View style={{ ...props.style, ...styles.container }}>
-      <Text>ComponentTemplate</Text>
-    </View>
-  );
+const DetailsView = (props) => {
+  return <View style={{ ...props.style, ...styles.container }}></View>;
+};
+
+DetailsView.navigationOptions = (navOptions) => {
+  return {};
 };
 
 const styles = StyleSheet.create({
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ComponentName;
+export default DetailsView;

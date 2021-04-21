@@ -1,19 +1,25 @@
 import React from "react";
 import { View, Text, Button, TextInput, StyleSheet } from "react-native";
 
-const Main = (props) => {
+const MapView = (props) => {
   return (
     <View style={{ ...props.style, ...styles.container }}>
-      <Text>Main View</Text>
+      <Text>MapView</Text>
     </View>
   );
 };
 
+// MapView.navigationOptions = (navOptions) => {
+//   return {};
+// };
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFF2E",
-    width: "80%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
 });
 
-export default Main;
+export default MapView;
