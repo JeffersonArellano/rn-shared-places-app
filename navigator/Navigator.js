@@ -7,7 +7,12 @@ import {
   createDrawerNavigator,
   DrawerNavigatorItems,
 } from "react-navigation-drawer";
-import { AddView, DetailsView, MapView, SocialView } from "../screens/index";
+import {
+  AddView,
+  DetailsView,
+  MapLocationView,
+  SocialView,
+} from "../screens/index";
 import Colors from "../constants/Colors";
 
 const defaultOption = {
@@ -35,7 +40,7 @@ const InternalNavigator = createStackNavigator(
       },
     },
     Map: {
-      screen: SocialView,
+      screen: MapLocationView,
       navigationOptions: {
         headerTitle: "Place Location",
       },

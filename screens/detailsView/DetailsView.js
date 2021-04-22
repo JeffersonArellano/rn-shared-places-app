@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import CustomButton from "../../components/UI/customButtom/CustomButton";
+
 import {
   View,
   Text,
@@ -50,8 +52,12 @@ const DetailsView = (props) => {
             </Hyperlink>
           </View>
         </View>
-        <View style={styles.mapContainer}>
-          <Text> The Maps</Text>
+        <View style={styles.buttonContainer}>
+          <CustomButton
+            iconName="map"
+            text="Maps"
+            onPress={() => props.navigation.navigate("Map")}
+          />
         </View>
       </View>
     </ScrollView>
@@ -103,12 +109,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#2e8bc0",
   },
-  mapContainer: {
-    width: "100%",
-    height: 200,
-    backgroundColor: "#59981a",
-    borderRadius: 5,
+  buttonContainer: {
+    width: "98%",
+    height: "10%",
     marginTop: 10,
+    marginBottom: 30,
   },
 });
 
