@@ -27,12 +27,7 @@ const InternalNavigator = createStackNavigator(
         headerTitle: "Social",
       },
     },
-    Details: {
-      screen: DetailsView,
-      navigationOptions: {
-        headerTitle: "Place Details",
-      },
-    },
+    Details: DetailsView,
     Add: {
       screen: AddView,
       navigationOptions: {
