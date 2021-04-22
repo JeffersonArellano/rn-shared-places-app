@@ -10,8 +10,10 @@ import {
 } from "react-native";
 import Card from "../UI/card/Card";
 import Colors from "../../constants/Colors";
+import moment from "moment";
 
 const SocialCard = (props) => {
+  const dateFormat = moment(props.date).format("L");
   let TouchableComponent = TouchableOpacity;
 
   if (Platform.OS === "android" && Platform.Version > 21) {
@@ -38,7 +40,7 @@ const SocialCard = (props) => {
               <View style={styles.detailsContent}>
                 <View style={styles.textDetails}>
                   <Text style={styles.details}>Date</Text>
-                  <Text>{props.date}</Text>
+                  <Text>{dateFormat}</Text>
                 </View>
                 <View style={styles.textDetails}>
                   <Text style={styles.details}>Description</Text>
@@ -63,6 +65,7 @@ const styles = StyleSheet.create({
     height: 200,
     marginTop: 5,
     marginLeft: 10,
+    marginBottom: 5,
   },
   touchable: {
     borderRadius: 5,
@@ -73,16 +76,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   imageContainer: {
-    width: "50%",
-    height: "100%",
-    overflow: "hidden",
-    borderRadius: 5,
-  },
-  image: {
-    height: "100%",
-    width: "100%",
-  },
-  content: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
@@ -90,23 +83,38 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  image: {
+    height: "100%",
+    width: "100%",
+    overflow: "hidden",
+    borderRadius: 5,
+  },
+  content: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
+  },
   titleContent: {
-    margin: 5,
+    marginLeft: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
   detailsContent: {
-    margin: 5,
+    marginLeft: 5,
   },
   title: {
     color: Colors.primary,
     fontFamily: "open-sans-bold",
   },
   textDetails: {
-    margin: 5,
+    marginTop: 5,
   },
   details: {
     color: Colors.primary,
     fontFamily: "open-sans",
-    fontSize: 12,
+    fontSize: 14,
   },
 });
 

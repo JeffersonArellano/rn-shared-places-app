@@ -18,6 +18,7 @@ const AddView = (props) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    imageUrl: "",
   });
 
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const AddView = (props) => {
   };
 
   const savePlaceHandler = useCallback(() => {
-    dispatch(addPlace(formData.title, formData.description));
+    dispatch(addPlace(formData));
     props.navigation.goBack();
   }, [dispatch, formData]);
 

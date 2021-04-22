@@ -1,47 +1,82 @@
-import React from "react";
-import { View, ScrollView, FlatList, StyleSheet, Platform } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  View,
+  Alert,
+  FlatList,
+  StyleSheet,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import customHeaderButton from "../../components/UI/customHeaderButton/customHeaderButton";
 import SocialCard from "../../components/socialCard/SocialCard";
+import { getPlaces } from "../../store/actions/places";
+import Colors from "../../constants/Colors";
 
 const SocialView = (props) => {
-  const data = [
-    {
-      id: "1",
-      title: "Developer 1",
-      date: new Date().toISOString(),
-      description: "A awesone landscape",
-      owner: "@Jarellano",
-      imageUrl:
-        "https://cdn3.iconfinder.com/data/icons/roles-computer-it/128/front-end_developer-2-512.png",
-    },
-    {
-      id: "2",
-      title: "Developer 2",
-      date: new Date().toISOString(),
-      description: "Another Dev",
-      owner: "@Lauu.ibarra",
-      imageUrl:
-        "https://cdn0.iconfinder.com/data/icons/startup-and-new-business-3/24/developer-woman-512.png",
-    },
-    {
-      id: "3",
-      title: "Hacker 1",
-      date: new Date().toISOString(),
-      description: "A Hack",
-      owner: "@black.hack",
-      imageUrl:
-        "https://cdn0.iconfinder.com/data/icons/cyber-crime-or-threats-glyph/120/hacker_cyber_crime-512.png",
-    },
-  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState("");
+
+  const data = useSelector((state) => state.places.places);
+  const dispatch = useDispatch();
+
+  const loadPlaces = useCallback(async () => {
+    setError(null);
+    setIsRefreshing(true);
+    try {
+      await dispatch(getPlaces());
+    } catch (error) {
+      setError(error.message);
+    }
+    setIsRefreshing(false);
+  }, [dispatch, setError, setIsRefreshing]);
+
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener("willFocus", loadPlaces);
+
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadPlaces]);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert("Alert", error, [{ text: "Ok" }]);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    loadPlaces()
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  }, [dispatch, loadPlaces]);
 
   const onSelectHandler = (item) => {
-    console.log("item", item);
+    props.navigation.navigate("Details", {
+      placeId: item.id,
+      placeTitle: item.title,
+    });
   };
 
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
   return (
     <FlatList
       data={data}
+      onRefresh={loadPlaces}
+      refreshing={isRefreshing}
       keyExtractor={(item) => item.id}
       style={{ width: "100%" }}
       renderItem={(itemData) => (
@@ -49,9 +84,9 @@ const SocialView = (props) => {
           title={itemData.item.title}
           date={itemData.item.date}
           description={itemData.item.description}
-          owner={itemData.item.owner}
+          owner={itemData.item.ownerId}
           imageUrl={itemData.item.imageUrl}
-          onSelect={() => onSelectHandler(itemData.item.id)}
+          onSelect={() => onSelectHandler(itemData.item)}
         />
       )}
     ></FlatList>
