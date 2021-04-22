@@ -18,14 +18,14 @@ const CustomButtom = (props) => {
   }
 
   return (
-    <View style={{ ...props.style, ...styles.container }}>
-      <TouchableComponent onPress={props.onPress} useForeground>
+    <TouchableComponent onPress={props.onPress} useForeground>
+      <View style={{ ...props.style, ...styles.container }}>
         <View style={styles.touchable}>
           <Ionicons name={props.iconName} size={23} color={Colors.accent} />
           <Text style={styles.text}>{props.text}</Text>
         </View>
-      </TouchableComponent>
-    </View>
+      </View>
+    </TouchableComponent>
   );
 };
 

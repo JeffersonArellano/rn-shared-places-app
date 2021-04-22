@@ -65,7 +65,7 @@ const AddView = (props) => {
             <CustomButton
               iconName="map"
               text="Maps"
-              onPress={() => console.log("Opening maps... ")}
+              onPress={() => props.navigation.navigate("Map")}
             />
           </View>
         </View>
