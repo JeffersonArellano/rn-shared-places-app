@@ -20,6 +20,8 @@ const AddView = (props) => {
     title: "",
     description: "",
     imageUrl: "",
+    latitude: 41.383333,
+    longitude: 2.183333,
   });
 
   const dispatch = useDispatch();

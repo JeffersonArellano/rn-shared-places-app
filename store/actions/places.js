@@ -2,42 +2,16 @@ import { ADD_PLACE, GET_PLACES } from "./actionNames";
 import * as FileSystem from "expo-file-system";
 import { useDispatch } from "react-redux";
 import Place from "../../models/place";
+import { insertPlace, fetchPlaces } from "../../helpers/db";
 
 export const getPlaces = () => {
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        `https://rn-shared-places-app-default-rtdb.firebaseio.com/places.json`
-      );
-
-      if (!response) {
-        const responseError = await response.json();
-        throw new Error(
-          `Something went wrong, error with the request. details:[${responseError.message}]`
-        );
-      }
-
-      const responseData = await response.json();
-
-      const loadedPlaces = [];
-      for (var key in responseData) {
-        loadedPlaces.push(
-          new Place(
-            key,
-            responseData[key].title,
-            responseData[key].description,
-            responseData[key].imageUrl,
-            responseData[key].ownerId,
-            responseData[key].ownerLink,
-            responseData[key].date
-          )
-        );
-      }
-
-      dispatch({ type: GET_PLACES, payload: loadedPlaces });
+      const responseData = await fetchPlaces();
+      dispatch({ type: GET_PLACES, payload: responseData.rows._array });
     } catch (error) {
       throw new Error(
-        `Something went wrong, fetching the data. details:[${responseError.message}]`
+        `Something went wrong, fetching the data. details:[${error.message}]`
       );
     }
   };
@@ -50,23 +24,25 @@ export const addPlace = (payload) => {
 
   return async (dispatch) => {
     try {
-      const fileName = imageUrl.split("/").pop();
+      const fileName = payload.imageUrl.split("/").pop();
       const newPath = FileSystem.documentDirectory + fileName;
 
-      await FileSystem.moveAsync({ from: imageUrl, to: newPath });
+      await FileSystem.moveAsync({ from: payload.imageUrl, to: newPath });
 
       const payloadUpdated = {
         id: creationDate,
         imageUrl: newPath,
         ownerId: ownerId,
         ownerLink: ownerLink,
-        date: creationDate,
+        creationDate: creationDate,
         ...payload,
       };
 
+      const dbResult = await insertPlace(payloadUpdated);
+
       dispatch({
         type: ADD_PLACE,
-        payload: payloadUpdated,
+        payload: { id: dbResult.insertId, ...payloadUpdated },
       });
     } catch (error) {
       throw new Error(`Something went wrong, ${error.message}`);

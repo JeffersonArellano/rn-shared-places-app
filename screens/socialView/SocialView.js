@@ -20,6 +20,7 @@ const SocialView = (props) => {
   const [error, setError] = useState("");
 
   const data = useSelector((state) => state.places.places);
+
   const dispatch = useDispatch();
 
   const loadPlaces = useCallback(async () => {
