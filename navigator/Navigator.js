@@ -36,13 +36,13 @@ const InternalNavigator = createStackNavigator(
     Add: {
       screen: AddView,
       navigationOptions: {
-        headerTitle: "New Place",
+        headerTitle: "Share a new place",
       },
     },
     Map: {
       screen: MapLocationView,
       navigationOptions: {
-        headerTitle: "Place Location",
+        headerTitle: "Pin the place location",
       },
     },
   },

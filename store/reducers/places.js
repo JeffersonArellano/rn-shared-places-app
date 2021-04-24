@@ -8,7 +8,20 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_PLACES:
-      return { places: action.payload };
+      return {
+        places: action.payload.map(
+          (place) =>
+            new Place(
+              place.id.toString(),
+              place.title,
+              place.description,
+              place.imageUrl,
+              place.ownerId,
+              place.ownerLink,
+              place.date
+            )
+        ),
+      };
 
     case ADD_PLACE:
       const newPlace = new Place(
@@ -18,7 +31,9 @@ export default (state = initialState, action) => {
         action.payload.imageUrl,
         action.payload.ownerId,
         action.payload.ownerLink,
-        action.payload.date
+        action.payload.creationDate,
+        action.payload.latitude,
+        action.payload.longitude
       );
 
       return { places: state.places.concat(newPlace) };

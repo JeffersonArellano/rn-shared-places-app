@@ -1,5 +1,15 @@
 class Place {
-  constructor(id, title, description, imageUrl, ownerId, ownerLink, date) {
+  constructor(
+    id,
+    title,
+    description,
+    imageUrl,
+    ownerId,
+    ownerLink,
+    date,
+    latitude,
+    longitude
+  ) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -7,6 +17,8 @@ class Place {
     this.ownerId = ownerId;
     this.ownerLink = ownerLink;
     this.date = date;
+    this.latitude = latitude;
+    this.longitude = longitude;
   }
 }
 
