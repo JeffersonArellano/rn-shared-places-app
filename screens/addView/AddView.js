@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import customHeaderButton from "../../components/UI/customHeaderButton/customHeaderButton";
 import CustomButton from "../../components/UI/customButtom/CustomButton";
+import ImagePicker from "../../components/imagePicker/ImagePicker";
 import Colors from "../../constants/Colors";
 import { addPlace } from "../../store/actions/places";
 
@@ -56,17 +57,15 @@ const AddView = (props) => {
               onChangeText={(text) => formDataHandler({ description: text })}
             ></TextInput>
           </View>
+          <ImagePicker />
           <View style={styles.buttonContainer}>
-            <CustomButton
-              iconName="camera"
-              text="Camera"
-              onPress={() => console.log("Opening camera... ")}
-            />
-            <CustomButton
-              iconName="map"
-              text="Maps"
-              onPress={() => props.navigation.navigate("Map")}
-            />
+            <View style={styles.button}>
+              <CustomButton
+                iconName="map"
+                text="Maps"
+                onPress={() => props.navigation.navigate("Map")}
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -95,32 +94,33 @@ AddView.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
     width: "95%",
     margin: 10,
   },
   form: {
+    flex: 1,
+    justifyContent: "center",
+    alignContent: "center",
     width: "100%",
+    height: "100%",
   },
-  inputContainer: { marginTop: 10 },
+  inputContainer: { marginTop: 5 },
   label: { fontFamily: "open-sans" },
-
   input: {
     fontFamily: "open-sans",
     borderRadius: 1,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
   },
   buttonContainer: {
-    padding: 10,
-    marginTop: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignContent: "center",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
+    height: 100,
   },
   button: {
-    fontFamily: "open-sans-bold",
-    margin: 5,
+    width: "50%",
+    height: "50%",
   },
 });
 
