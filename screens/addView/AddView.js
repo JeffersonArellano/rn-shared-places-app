@@ -37,6 +37,10 @@ const AddView = (props) => {
     props.navigation.setParams({ submit: savePlaceHandler });
   }, [savePlaceHandler]);
 
+  imageTakenHandler = (imagePath) => {
+    formDataHandler({ imageUrl: imagePath });
+  };
+
   return (
     <ScrollView>
       <View style={{ ...props.style, ...styles.container }}>
@@ -57,7 +61,7 @@ const AddView = (props) => {
               onChangeText={(text) => formDataHandler({ description: text })}
             ></TextInput>
           </View>
-          <ImagePicker />
+          <ImagePicker onImageTaken={imageTakenHandler} />
           <View style={styles.buttonContainer}>
             <View style={styles.button}>
               <CustomButton

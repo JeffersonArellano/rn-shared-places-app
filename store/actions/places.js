@@ -1,4 +1,5 @@
 import { ADD_PLACE, GET_PLACES } from "./actionNames";
+import * as FileSystem from "expo-file-system";
 import { useDispatch } from "react-redux";
 import Place from "../../models/place";
 
@@ -49,34 +50,18 @@ export const addPlace = (payload) => {
 
   return async (dispatch) => {
     try {
-      const response = await fetch(
-        `https://rn-shared-places-app-default-rtdb.firebaseio.com/places.json`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title: payload.title,
-            description: payload.description,
-            imageUrl: payload.imageUrl,
-            ownerId: ownerId,
-            ownerLink: ownerLink,
-            date: creationDate,
-          }),
-        }
-      );
+      const fileName = imageUrl.split("/").pop();
+      const newPath = FileSystem.documentDirectory + fileName;
 
-      if (!response) {
-        const responseError = await response.json();
-        throw new Error(`Something  went wrong,  ${responseError.message}`);
-      }
+      await FileSystem.moveAsync({ from: imageUrl, to: newPath });
 
-      const responseData = await response.json();
       const payloadUpdated = {
-        id: responseData.name,
-        ...payload,
+        id: creationDate,
+        imageUrl: newPath,
         ownerId: ownerId,
         ownerLink: ownerLink,
         date: creationDate,
+        ...payload,
       };
 
       dispatch({
