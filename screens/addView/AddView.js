@@ -12,6 +12,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import customHeaderButton from "../../components/UI/customHeaderButton/customHeaderButton";
 import CustomButton from "../../components/UI/customButtom/CustomButton";
 import ImagePicker from "../../components/imagePicker/ImagePicker";
+import LocationPicker from "../../components/locationPicker/LocationPicker";
 import Colors from "../../constants/Colors";
 import { addPlace } from "../../store/actions/places";
 
@@ -64,15 +65,7 @@ const AddView = (props) => {
             ></TextInput>
           </View>
           <ImagePicker onImageTaken={imageTakenHandler} />
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <CustomButton
-                iconName="map"
-                text="Maps"
-                onPress={() => props.navigation.navigate("Map")}
-              />
-            </View>
-          </View>
+          <LocationPicker navigation={props.navigation} />
         </View>
       </View>
     </ScrollView>
