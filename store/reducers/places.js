@@ -18,7 +18,10 @@ export default (state = initialState, action) => {
               place.imageUrl,
               place.ownerId,
               place.ownerLink,
-              place.date
+              place.date,
+              place.latitude,
+              place.longitude,
+              place.address
             )
         ),
       };
@@ -32,8 +35,9 @@ export default (state = initialState, action) => {
         action.payload.ownerId,
         action.payload.ownerLink,
         action.payload.creationDate,
-        action.payload.latitude,
-        action.payload.longitude
+        action.payload.location.latitude,
+        action.payload.location.longitude,
+        action.payload.address
       );
 
       return { places: state.places.concat(newPlace) };

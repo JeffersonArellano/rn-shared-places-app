@@ -87,6 +87,7 @@ const SocialView = (props) => {
           description={itemData.item.description}
           owner={itemData.item.ownerId}
           imageUrl={itemData.item.imageUrl}
+          address={itemData.item.address}
           onSelect={() => onSelectHandler(itemData.item)}
         />
       )}

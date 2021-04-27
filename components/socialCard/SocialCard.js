@@ -47,6 +47,10 @@ const SocialCard = (props) => {
                   <Text>{props.description}</Text>
                 </View>
                 <View style={styles.textDetails}>
+                  <Text style={styles.details}>Address</Text>
+                  <Text>{props.address}</Text>
+                </View>
+                <View style={styles.textDetails}>
                   <Text style={styles.details}>Owner</Text>
                   <Text>{props.owner}</Text>
                 </View>
@@ -62,7 +66,7 @@ const SocialCard = (props) => {
 const styles = StyleSheet.create({
   mainContainer: {
     width: "95%",
-    height: 200,
+    height: 230,
     marginTop: 5,
     marginLeft: 10,
     marginBottom: 5,

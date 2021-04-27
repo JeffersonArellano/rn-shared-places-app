@@ -21,15 +21,20 @@ const AddView = (props) => {
     title: "",
     description: "",
     imageUrl: "",
-    latitude: 41.383333,
-    longitude: 2.183333,
+    location: {
+      latitude: 0.0,
+      longitude: 0.0,
+    },
   });
 
   const dispatch = useDispatch();
 
-  const formDataHandler = (itemData) => {
-    setFormData({ ...formData, ...itemData });
-  };
+  const formDataHandler = useCallback(
+    (itemData) => {
+      setFormData({ ...formData, ...itemData });
+    },
+    [formData]
+  );
 
   const savePlaceHandler = useCallback(() => {
     dispatch(addPlace(formData));
@@ -40,9 +45,21 @@ const AddView = (props) => {
     props.navigation.setParams({ submit: savePlaceHandler });
   }, [savePlaceHandler]);
 
-  imageTakenHandler = (imagePath) => {
-    formDataHandler({ imageUrl: imagePath });
-  };
+  const imageTakenHandler = useCallback(
+    (imagePath) => {
+      formDataHandler({ imageUrl: imagePath });
+    },
+    [formDataHandler]
+  );
+
+  const locationHandler = useCallback((location) => {
+    formDataHandler({
+      location: {
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+    });
+  }, []);
 
   return (
     <ScrollView>
@@ -65,7 +82,10 @@ const AddView = (props) => {
             ></TextInput>
           </View>
           <ImagePicker onImageTaken={imageTakenHandler} />
-          <LocationPicker navigation={props.navigation} />
+          <LocationPicker
+            navigation={props.navigation}
+            onLocationPicked={locationHandler}
+          />
         </View>
       </View>
     </ScrollView>
