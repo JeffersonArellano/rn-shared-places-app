@@ -12,6 +12,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import customHeaderButton from "../../components/UI/customHeaderButton/customHeaderButton";
 import CustomButton from "../../components/UI/customButtom/CustomButton";
 import ImagePicker from "../../components/imagePicker/ImagePicker";
+import LocationPicker from "../../components/locationPicker/LocationPicker";
 import Colors from "../../constants/Colors";
 import { addPlace } from "../../store/actions/places";
 
@@ -20,15 +21,20 @@ const AddView = (props) => {
     title: "",
     description: "",
     imageUrl: "",
-    latitude: 41.383333,
-    longitude: 2.183333,
+    location: {
+      latitude: 0.0,
+      longitude: 0.0,
+    },
   });
 
   const dispatch = useDispatch();
 
-  const formDataHandler = (itemData) => {
-    setFormData({ ...formData, ...itemData });
-  };
+  const formDataHandler = useCallback(
+    (itemData) => {
+      setFormData({ ...formData, ...itemData });
+    },
+    [formData]
+  );
 
   const savePlaceHandler = useCallback(() => {
     dispatch(addPlace(formData));
@@ -39,9 +45,21 @@ const AddView = (props) => {
     props.navigation.setParams({ submit: savePlaceHandler });
   }, [savePlaceHandler]);
 
-  imageTakenHandler = (imagePath) => {
-    formDataHandler({ imageUrl: imagePath });
-  };
+  const imageTakenHandler = useCallback(
+    (imagePath) => {
+      formDataHandler({ imageUrl: imagePath });
+    },
+    [formDataHandler]
+  );
+
+  const locationHandler = useCallback((location) => {
+    formDataHandler({
+      location: {
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+    });
+  }, []);
 
   return (
     <ScrollView>
@@ -64,15 +82,10 @@ const AddView = (props) => {
             ></TextInput>
           </View>
           <ImagePicker onImageTaken={imageTakenHandler} />
-          <View style={styles.buttonContainer}>
-            <View style={styles.button}>
-              <CustomButton
-                iconName="map"
-                text="Maps"
-                onPress={() => props.navigation.navigate("Map")}
-              />
-            </View>
-          </View>
+          <LocationPicker
+            navigation={props.navigation}
+            onLocationPicked={locationHandler}
+          />
         </View>
       </View>
     </ScrollView>

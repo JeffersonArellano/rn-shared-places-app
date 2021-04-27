@@ -3,6 +3,7 @@ import * as FileSystem from "expo-file-system";
 import { useDispatch } from "react-redux";
 import Place from "../../models/place";
 import { insertPlace, fetchPlaces } from "../../helpers/db";
+import ENV from "../../env";
 
 export const getPlaces = () => {
   return async (dispatch) => {
@@ -24,6 +25,28 @@ export const addPlace = (payload) => {
 
   return async (dispatch) => {
     try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${
+          payload.location.latitude
+        },${payload.location.longitude}&key=${ENV().googleApiKey}`
+      );
+
+      if (!response) {
+        const responseError = await response.json();
+        throw new Error(
+          `Something went wrong with google, [Error Details] ${responseError.message}`
+        );
+      }
+
+      const responseData = await response.json();
+      if (!responseData.results) {
+        throw new Error(`Something went wrong with google results`);
+      }
+
+      const locationAddress = responseData.results[0].formatted_address;
+
+      console.log("locationAddress", locationAddress);
+
       const fileName = payload.imageUrl.split("/").pop();
       const newPath = FileSystem.documentDirectory + fileName;
 
@@ -35,6 +58,7 @@ export const addPlace = (payload) => {
         ownerId: ownerId,
         ownerLink: ownerLink,
         creationDate: creationDate,
+        address: locationAddress,
         ...payload,
       };
 

@@ -8,7 +8,8 @@ class Place {
     ownerLink,
     date,
     latitude,
-    longitude
+    longitude,
+    address
   ) {
     this.id = id;
     this.title = title;
@@ -19,6 +20,7 @@ class Place {
     this.date = date;
     this.latitude = latitude;
     this.longitude = longitude;
+    this.address = address;
   }
 }
 
