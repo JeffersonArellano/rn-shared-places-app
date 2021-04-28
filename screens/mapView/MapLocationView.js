@@ -7,9 +7,6 @@ import customHeaderButton from "../../components/UI/customHeaderButton/customHea
 const MapLocationView = (props) => {
   const location = props.navigation.getParam("initialLocation");
   const readonly = props.navigation.getParam("readonly");
-
-  console.log("location,  readonly", location, readonly);
-
   const [selectedLocation, setSelectedLocation] = useState(location);
 
   const mapRegion = {

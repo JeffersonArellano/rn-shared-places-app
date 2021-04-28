@@ -1,20 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CustomButton from "../../components/UI/customButtom/CustomButton";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, Alert } from "react-native";
 import Colors from "../../constants/Colors";
 import moment from "moment";
 import Hyperlink from "react-native-hyperlink";
-import MapPreview from "../../components/mapPreview/MapPreview";
+import MapView, { Marker } from "react-native-maps";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import customHeaderButton from "../../components/UI/customHeaderButton/customHeaderButton";
+import { deletePlaces } from "../../store/actions/places";
 
 const DetailsView = (props) => {
   const placeId = props.navigation.getParam("placeId");
+  const [error, setError] = useState();
+  const dispatch = useDispatch();
 
   const place = useSelector((state) =>
     state.places.places.find((place) => place.id === placeId)
   );
 
-  const location = { latitude: place.latitude, longitude: place.longitude };
+  const location = { lat: place.latitude, lng: place.longitude };
   const formatedDate = moment(place.date).format("L");
 
   const showMapHandler = () => {
@@ -23,6 +28,41 @@ const DetailsView = (props) => {
       initialLocation: location,
     });
   };
+
+  const mapRegion = {
+    latitude: location.lat,
+    longitude: location.lng,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
+
+  const markerCoordinates = {
+    latitude: location.lat,
+    longitude: location.lng,
+  };
+
+  const deletePlace = useCallback(async () => {
+    try {
+      await dispatch(deletePlaces({ id: place.id }));
+      props.navigation.navigate("Social");
+    } catch (error) {
+      setError(error.message);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    props.navigation.setParams({ deletePlace: deletePlace });
+  }, []);
+
+  useEffect(() => {
+    if (!error) {
+      return;
+    }
+
+    Alert.alert("Alert", `Something went wrong, [details]: ${error}`, [
+      { text: "Ok" },
+    ]);
+  }, [error]);
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -57,11 +97,13 @@ const DetailsView = (props) => {
           </View>
         </View>
         <View style={styles.mapContainer}>
-          <MapPreview
+          <MapView
             style={styles.mapView}
-            location={location}
             onPress={showMapHandler}
-          />
+            region={mapRegion}
+          >
+            <Marker coordinate={markerCoordinates} />
+          </MapView>
         </View>
         <View style={styles.buttonContainer}>
           <CustomButton iconName="map" text="Maps" onPress={showMapHandler} />
@@ -72,8 +114,21 @@ const DetailsView = (props) => {
 };
 
 DetailsView.navigationOptions = (navOptions) => {
+  const deletePlace = navOptions.navigation.getParam("deletePlace");
+
   return {
     headerTitle: navOptions.navigation.getParam("placeTitle"),
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={customHeaderButton}>
+        <Item
+          title="Delete"
+          iconName={
+            Platform.OS === "android" ? "trash-outline" : "ios-trash-outline"
+          }
+          onPress={deletePlace}
+        />
+      </HeaderButtons>
+    ),
   };
 };
 
