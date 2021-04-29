@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ActivityIndicator, Alert, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
 import Colors from "../../constants/Colors";
 import CustomButton from "../UI/customButtom/CustomButton";
 import MapPreview from "../mapPreview/MapPreview";
+import MapView, { PROVIDER_DEFAULT, Marker } from "react-native-maps";
 
 const LocationPicker = (props) => {
   const [isFetching, setIsFetching] = useState(false);
   const [userLocation, setUserLocation] = useState();
 
   const pickedLocation = props.navigation.getParam("pickedLocation");
-
   const { onLocationPicked } = props;
+
+  let mapRegion = {
+    latitude: 41.4447528,
+    longitude: 2.1818295,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
 
   useEffect(() => {
     if (pickedLocation) {
@@ -21,7 +36,7 @@ const LocationPicker = (props) => {
   }, [pickedLocation, onLocationPicked]);
 
   const verifyPermissions = async () => {
-    const result = await Location.getForegroundPermissionsAsync();
+    const result = await Location.requestForegroundPermissionsAsync();
 
     if (result.status !== "granted") {
       Alert.alert("Alert", "No permissions granted", [{ text: "ok" }]);
@@ -67,9 +82,46 @@ const LocationPicker = (props) => {
     props.navigation.navigate("Map");
   };
 
+  useEffect(() => {
+    if (!userLocation) {
+      return;
+    }
+
+    mapRegion = {
+      latitude: userLocation.lat,
+      longitude: userLocation.lng,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+  }, [userLocation, mapRegion]);
+
+  console.log("userLocation", userLocation);
+  console.log("mapRegion", mapRegion);
+
   return (
     <View style={styles.locationPicker}>
-      <MapPreview
+      <TouchableOpacity onPress={props.onPress} style={styles.mapPreview}>
+        {isFetching ? (
+          <ActivityIndicator size="large" color={Colors.primary} />
+        ) : (
+          <MapView
+            style={styles.mapView}
+            onPress={pickOnMapHandler}
+            region={mapRegion}
+          >
+            {userLocation ? (
+              <Marker
+                coordinate={{
+                  latitude: userLocation.lat,
+                  longitude: userLocation.lng,
+                }}
+              />
+            ) : null}
+          </MapView>
+        )}
+      </TouchableOpacity>
+
+      {/* <MapPreview
         onPress={pickOnMapHandler}
         style={styles.mapPreview}
         location={userLocation}
@@ -79,7 +131,8 @@ const LocationPicker = (props) => {
         ) : (
           <Text style={styles.label}>No location chosen yet</Text>
         )}
-      </MapPreview>
+      </MapPreview> */}
+
       <View style={styles.actions}>
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
@@ -94,7 +147,7 @@ const LocationPicker = (props) => {
           <View style={styles.button}>
             <CustomButton
               iconName="map"
-              text="Maps"
+              text="Pick on Map"
               onPress={pickOnMapHandler}
             />
           </View>
@@ -115,7 +168,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#e4e5e8",
     marginBottom: 10,
+    justifyContent: "center",
+    alignContent: "center",
   },
+  mapView: { width: "100%", height: "100%" },
   label: {
     color: Colors.primary,
     fontFamily: "open-sans-bold",

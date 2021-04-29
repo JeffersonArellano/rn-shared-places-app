@@ -10,10 +10,8 @@ import {
 import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import customHeaderButton from "../../components/UI/customHeaderButton/customHeaderButton";
-import CustomButton from "../../components/UI/customButtom/CustomButton";
 import ImagePicker from "../../components/imagePicker/ImagePicker";
 import LocationPicker from "../../components/locationPicker/LocationPicker";
-import Colors from "../../constants/Colors";
 import { addPlace } from "../../store/actions/places";
 
 const AddView = (props) => {
@@ -37,6 +35,7 @@ const AddView = (props) => {
   );
 
   const savePlaceHandler = useCallback(() => {
+    console.log("formData", formData);
     dispatch(addPlace(formData));
     props.navigation.goBack();
   }, [dispatch, formData]);

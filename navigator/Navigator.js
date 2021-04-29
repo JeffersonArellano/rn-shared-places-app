@@ -42,7 +42,7 @@ const InternalNavigator = createStackNavigator(
     Map: {
       screen: MapLocationView,
       navigationOptions: {
-        headerTitle: "Pin the location",
+        headerTitle: "Maps",
       },
     },
   },

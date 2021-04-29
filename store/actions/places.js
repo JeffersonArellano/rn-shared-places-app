@@ -1,8 +1,8 @@
-import { ADD_PLACE, GET_PLACES } from "./actionNames";
+import { ADD_PLACE, GET_PLACES, DELETE_PLACE } from "./actionNames";
 import * as FileSystem from "expo-file-system";
 import { useDispatch } from "react-redux";
 import Place from "../../models/place";
-import { insertPlace, fetchPlaces } from "../../helpers/db";
+import { insertPlace, fetchPlaces, deletePlace } from "../../helpers/db";
 import ENV from "../../env";
 
 export const getPlaces = () => {
@@ -70,6 +70,21 @@ export const addPlace = (payload) => {
       });
     } catch (error) {
       throw new Error(`Something went wrong, ${error.message}`);
+    }
+  };
+};
+
+export const deletePlaces = (payload) => {
+  return async (dispatch) => {
+    try {
+      const dbResult = await deletePlace(payload);
+
+      dispatch({
+        type: DELETE_PLACE,
+        payload: payload,
+      });
+    } catch (error) {
+      throw new Error("Something went wrong deleting the place");
     }
   };
 };

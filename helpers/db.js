@@ -50,6 +50,25 @@ export const insertPlace = (payload) => {
   return promise;
 };
 
+export const deletePlace = (payload) => {
+  const promise = new Promise((resolve, reject) => {
+    db.transaction((trans) => {
+      trans.executeSql(
+        `DELETE FROM places WHERE id=?`,
+        [payload.id],
+        (_, result) => {
+          resolve(result);
+        },
+        (_, error) => {
+          reject(error);
+        }
+      );
+    });
+  });
+
+  return promise;
+};
+
 export const fetchPlaces = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((trans) => {
