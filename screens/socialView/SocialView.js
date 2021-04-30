@@ -21,8 +21,6 @@ const SocialView = (props) => {
 
   const data = useSelector((state) => state.places.places);
 
-  console.log("data", data);
-
   const dispatch = useDispatch();
 
   const loadPlaces = useCallback(async () => {

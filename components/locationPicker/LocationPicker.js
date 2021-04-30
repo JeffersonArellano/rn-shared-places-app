@@ -95,9 +95,6 @@ const LocationPicker = (props) => {
     };
   }, [userLocation, mapRegion]);
 
-  console.log("userLocation", userLocation);
-  console.log("mapRegion", mapRegion);
-
   return (
     <View style={styles.locationPicker}>
       <TouchableOpacity onPress={props.onPress} style={styles.mapPreview}>
