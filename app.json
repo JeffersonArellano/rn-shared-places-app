@@ -1,14 +1,16 @@
 {
   "expo": {
-    "name": "rn-shared-places-app",
-    "slug": "rn-shared-places-app",
+    "name": "Shared Applaces",
+    "description": "Amazing shared places app",
+    "slug": "shared-applaces",
+    "platforms": ["ios","android"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/places.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash_icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#171717"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,12 +23,9 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/places-adaptive.png",
+        "backgroundColor": "#171717"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }

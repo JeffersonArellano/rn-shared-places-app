@@ -45,8 +45,6 @@ export const addPlace = (payload) => {
 
       const locationAddress = responseData.results[0].formatted_address;
 
-      console.log("locationAddress", locationAddress);
-
       const fileName = payload.imageUrl.split("/").pop();
       const newPath = FileSystem.documentDirectory + fileName;
 

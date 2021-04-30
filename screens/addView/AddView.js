@@ -35,7 +35,6 @@ const AddView = (props) => {
   );
 
   const savePlaceHandler = useCallback(() => {
-    console.log("formData", formData);
     dispatch(addPlace(formData));
     props.navigation.goBack();
   }, [dispatch, formData]);
